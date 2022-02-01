@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidadJugador: 5
-  velocidadSalto: 20
+  velocidadSalto: 4
 --- !u!1001 &1666671437
 PrefabInstance:
   m_ObjectHideFlags: 0
