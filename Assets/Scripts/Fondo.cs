@@ -9,14 +9,14 @@ public class Fondo : MonoBehaviour
     // Objetos
     GameController gameController;
 
-    // Start is called before the first frame update
+    // Método llamado en el primer frame del Update
     void Start()
     {
         // Obtenemos el objeto GameController
         gameController = FindObjectOfType<GameController>();
     }
 
-    // Update is called once per frame
+    // Método Update llamado en cada frame
     void Update()
     {
         
