@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class Fondo : MonoBehaviour
 {
+    // Objetos
+    GameController gameController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Obtenemos el objeto GameController
+        gameController = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -25,5 +29,8 @@ public class Fondo : MonoBehaviour
         // FIN DEBUG
         // Enviamos mensaje al objeto jugador para que lance la función Recolocar
         FindObjectOfType<Jugador>().SendMessage("Recolocar");
+
+        // Enviamos mensaje al Controlador de Juego para perder una vida
+        gameController.SendMessage("PerderVida");
     }
 }

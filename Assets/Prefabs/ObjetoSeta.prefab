@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 357126441738234620}
   - component: {fileID: 8629802334023158451}
   m_Layer: 0
-  m_Name: Seta
+  m_Name: ObjetoSeta
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

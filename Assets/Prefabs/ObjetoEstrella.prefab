@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6069784049504837218}
   - component: {fileID: 7290399565654051627}
   m_Layer: 0
-  m_Name: Estrella
+  m_Name: ObjetoEstrella
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
