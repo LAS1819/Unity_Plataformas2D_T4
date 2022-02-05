@@ -18,6 +18,7 @@ public class Jugador : MonoBehaviour
     private float posicionInicialX; // Posición X inicial del jugador
     private float posicionInicialY; // Posición Y inicial del jugador
     private float alturaJugador; // Altura del jugador
+    private Animator animator; // Animator asociado al jugador
 
     // Método llamado en el primer frame del Update
     void Start()
@@ -34,6 +35,9 @@ public class Jugador : MonoBehaviour
 
         // Obtenemos el objeto GameController
         gameController = FindObjectOfType<GameController>();
+
+        // Obtenemos el animator del jugador
+        animator = gameObject.GetComponent<Animator>();
     }
 
     // Método Update llamado en cada frame
@@ -46,6 +50,11 @@ public class Jugador : MonoBehaviour
         float movimientoHorizontal = Input.GetAxis("Horizontal");
         // Generamos movimiento horizontal
         transform.Translate(movimientoHorizontal * velocidadJugador * Time.deltaTime, 0, 0);
+
+        // Si detectamos movimiento
+        if (movimientoHorizontal > 0.1f || movimientoHorizontal < -0.1f) {
+            animator.Play("PersonajeCorriendo");
+        }
 
         // SALTO
         // // PRIMERA FORMA DE REALIZAR SALTO
@@ -87,6 +96,9 @@ public class Jugador : MonoBehaviour
         {
             Vector3 fuerzaSalto = new Vector3(0, velocidadSalto, 0);
             rbJugador.AddForce(fuerzaSalto, ForceMode2D.Impulse);
+
+            // Aplicamos sprite de salto
+            animator.Play("PersonajeSaltando");
         }
     }
 
