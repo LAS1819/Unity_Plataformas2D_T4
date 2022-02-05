@@ -3,7 +3,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement; // Control de escenas
+using UnityEngine.UI; // Para el control de textos
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class GameController : MonoBehaviour
     private int vidas; // Vidas del jugador
     private int nivelActual; // Nivel actual de juego
     private int objetosRestantes; // Número de objetos restantes para completar el nivel
+
+    // Miembros públicos
+    public Text mainText; // Textos principales
 
     // Llamado en el primer frame
     void Start()
@@ -28,6 +32,11 @@ public class GameController : MonoBehaviour
         puntos = gameStatus.puntos;
         vidas = gameStatus.vidas;
         nivelActual = gameStatus.nivelActual;
+
+        // Inicializaciones texto
+        mainText.text = ""; // Texto en pantalla
+        // Desactivamos texto
+        mainText.enabled = false;
 
         // Comprobamos los objetos que son estrellas
         // foreach (GameObject objetoRestante in objetosRestantes) {
@@ -79,22 +88,27 @@ public class GameController : MonoBehaviour
 
         // Pasamos las vidas al gameStatus
         gameStatus.vidas = vidas;
-        
+
         // Obtenemos el objeto del jugador y madamos el mensaje Recolocar
         FindObjectOfType<Jugador>().SendMessage("Recolocar");
 
         // DEBUG
         Debug.Log("Quedan " + vidas + " vidas.");
+        // FIN DEBUG
 
         // Si tiene vidas
         if (vidas <= 0) {
             // DEBUG
             Debug.Log("Partida terminada");
             // FIN DEBUG
+
             // Terminamos juego
-            Application.Quit();
+            // Application.Quit();
+            // Volvemos al menú principal
+            // SceneManager.LoadScene("Menu");
+            // Llamamos a función para TerminarPartida
+            TerminarPartida();
         }
-        // FIN DEBUG
     }
 
     // Método para avanzar de nivel
@@ -110,5 +124,24 @@ public class GameController : MonoBehaviour
 
         // Cargamos nivel que toca
         SceneManager.LoadScene("Nivel " + nivelActual);
+    }
+
+    // Método privado para terminar partida
+    private void TerminarPartida() {
+        mainText.text = "GAME OVER";
+        mainText.enabled = true;
+        StartCoroutine(VolverAlMenuPrincipal());
+    }
+
+    // Corrutina para volver al menú principal
+    private IEnumerator VolverAlMenuPrincipal() {
+        // Ralentizamos velocidad de juego
+        Time.timeScale = 0.1f;
+        // Esperamos 3 segundos de tiempo real
+        yield return new WaitForSeconds(0.3f);
+        // Volvemos a poner el tiempo normal
+        Time.timeScale = 1;
+        // Cargamos menú principal
+        SceneManager.LoadScene("Menu");
     }
 }
