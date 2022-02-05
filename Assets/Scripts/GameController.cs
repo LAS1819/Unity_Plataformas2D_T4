@@ -3,12 +3,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     // Miembros privados
     private int puntos; // Puntos del jugador
     private int vidas; // Vidas del jugador
+    private int objetosRestantes; // Número de objetos restantes para completar el nivel
 
     // Llamado en el primer frame
     void Start()
@@ -16,6 +18,20 @@ public class GameController : MonoBehaviour
         // Inicialiazciones
         puntos = 0;
         vidas = 3;
+        objetosRestantes = FindObjectsOfType<Objeto>().Length; // Objetos tipo Objeto
+
+        // Comprobamos los objetos que son estrellas
+        // foreach (GameObject objetoRestante in objetosRestantes) {
+        //     // DEBUG
+        //     Debug.Log("Nombre de objeto restante: " + objetoRestante.name);
+        //     // FIN DEBUG
+        // }
+
+        // DEBUG
+        Debug.Log("Puntos iniciales: " + puntos);
+        Debug.Log("Vidas iniciales: " + vidas);
+        Debug.Log("Objetos restantes: " + objetosRestantes);
+        // FIN DEBUG
     }
 
     // Llamado una en cada frame
@@ -29,9 +45,20 @@ public class GameController : MonoBehaviour
         // Sumamos 100 puntos
         puntos += 100;
 
+        // TODO: Comprobar qué objeto se ha recogido para controlar sólo las estrellas
+        // Restamos objeto
+        objetosRestantes--;
+
         // DEBUG
         Debug.Log("Puntos: " + puntos);
+        Debug.Log("Objetos restantes: " + objetosRestantes);
         // FIN DEBUG
+
+        // Si objetos restantes llega a cero
+        if (objetosRestantes <= 0) {
+            // Llamamos función para cargar el siguiente nivel
+            AvanzarNivel();
+        }
     }
 
     // Método para restar una vida al jugador
@@ -52,5 +79,10 @@ public class GameController : MonoBehaviour
             Application.Quit();
         }
         // FIN DEBUG
+    }
+
+    // Método para avanzar de nivel
+    public void AvanzarNivel() {
+        SceneManager.LoadScene("Nivel 2");
     }
 }

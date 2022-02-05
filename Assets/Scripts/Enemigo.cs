@@ -33,8 +33,8 @@ public class Enemigo : MonoBehaviour
 
 
         // DEBUG
-        Debug.Log("Start " + wayPoints[siguientePosicion].transform.position);
-        Debug.Log("Start-> " + gameObject.name + " tiene " + wayPoints.Count + " wayPoints");
+        // Debug.Log("Start " + wayPoints[siguientePosicion].transform.position);
+        // Debug.Log("Start-> " + gameObject.name + " tiene " + wayPoints.Count + " wayPoints");
         // FIN DEBUG
     }
 
@@ -42,8 +42,8 @@ public class Enemigo : MonoBehaviour
     void Update()
     {
         // DEBUG
-        Debug.Log("Update " + wayPoints[siguientePosicion].transform.position);
-        Debug.Log("Update-> " + gameObject.name + " tiene como siguientePosicion: " + siguientePosicion);
+        // Debug.Log("Update " + wayPoints[siguientePosicion].transform.position);
+        // Debug.Log("Update-> " + gameObject.name + " tiene como siguientePosicion: " + siguientePosicion);
         // FIN DEBUG
         
         transform.position = Vector3.MoveTowards(transform.position,
