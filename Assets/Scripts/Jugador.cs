@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Jugador : MonoBehaviour
 {
+    // Objetos
+    GameController gameController;
+
     // Miembros públicos
     [SerializeField] float velocidadJugador = 5; // Velocidad del jugador
     [SerializeField] float velocidadSalto = 4; // Velocidad de salto
@@ -15,6 +18,7 @@ public class Jugador : MonoBehaviour
     private float posicionInicialX; // Posición X inicial del jugador
     private float posicionInicialY; // Posición Y inicial del jugador
     private float alturaJugador; // Altura del jugador
+    private Animator animator; // Animator asociado al jugador
 
     // Método llamado en el primer frame del Update
     void Start()
@@ -28,6 +32,12 @@ public class Jugador : MonoBehaviour
 
         // Obtenemos la altura del jugador
         alturaJugador = GetComponent<Collider2D>().bounds.size.y;
+
+        // Obtenemos el objeto GameController
+        gameController = FindObjectOfType<GameController>();
+
+        // Obtenemos el animator del jugador
+        animator = gameObject.GetComponent<Animator>();
     }
 
     // Método Update llamado en cada frame
@@ -40,6 +50,11 @@ public class Jugador : MonoBehaviour
         float movimientoHorizontal = Input.GetAxis("Horizontal");
         // Generamos movimiento horizontal
         transform.Translate(movimientoHorizontal * velocidadJugador * Time.deltaTime, 0, 0);
+
+        // Si detectamos movimiento
+        if (movimientoHorizontal > 0.1f || movimientoHorizontal < -0.1f) {
+            animator.Play("PersonajeCorriendo");
+        }
 
         // SALTO
         // // PRIMERA FORMA DE REALIZAR SALTO
@@ -81,6 +96,9 @@ public class Jugador : MonoBehaviour
         {
             Vector3 fuerzaSalto = new Vector3(0, velocidadSalto, 0);
             rbJugador.AddForce(fuerzaSalto, ForceMode2D.Impulse);
+
+            // Aplicamos sprite de salto
+            animator.Play("PersonajeSaltando");
         }
     }
 
@@ -88,5 +106,18 @@ public class Jugador : MonoBehaviour
     void Recolocar() {
         // Ubicamos objeto del jugador en la posición inicial
         transform.position = new Vector3(posicionInicialX, posicionInicialY, 0);
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        // Si el otro objeto es un enemigo
+        if (collision.gameObject.CompareTag("Enemigo")) {
+            // DEBUG
+            Debug.Log("Se ha colisionado con un enmigo: " + collision.gameObject.name);
+            // FIN DEBUG
+
+            // Enviamos mensaje al Controlador de Juego para perder una vida
+            gameController.SendMessage("PerderVida");
+        }
     }
 }
